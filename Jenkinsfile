@@ -12,7 +12,7 @@ pipeline {
 		sh "cd /home/ubuntu"
 		sh "tfaws output -state /workspace/terraform.tfstate -json > output.json"
        		sh "NS=sasviya4aws"
- 		sh "./nfs.sh
+ 		sh "./nfs.sh"
             }
         }
         stage('Deploy SAS Viya'){
