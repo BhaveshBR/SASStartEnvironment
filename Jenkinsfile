@@ -9,9 +9,10 @@ pipeline {
         }
         stage('Configure NFS') { 
             steps {
-		sh "tfaws output -state /workspace/terraform.tfstate -json > /ome/ubuntu/output.json"
+		sh "cd /home/ubuntu"
+		sh "tfaws output -state /workspace/terraform.tfstate -json > output.json"
        		sh "NS=sasviya4aws"
- 		sh "/home/ubuntu/nfs.sh
+ 		sh "./nfs.sh
             }
         }
         stage('Deploy SAS Viya'){
