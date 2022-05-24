@@ -9,8 +9,7 @@ pipeline {
         }
         stage('Configure NFS') { 
             steps {
-		sh "tfaws output -state /workspace/terraform.tfstate -json | jq -r '@sh \"export ipaddress=\(.jump_public_ip.value)\"' > env.sh"
-		sh "source env.sh"
+		sh "tfaws output -state /workspace/terraform.tfstate -json > /ome/ubuntu/output.json"
        		sh "NS=sasviya4aws"
  		sh "/home/ubuntu/nfs.sh
             }
