@@ -4,7 +4,7 @@ pipeline {
         stage('Start New Environment') { 
             steps {
                 sh '''
-		  docker images
+		  cd /home/ubuntu && ls
 		'''
             }
         }
