@@ -4,12 +4,12 @@ pipeline {
         stage('Create New Environment') { 
             steps {
                 sh '''
-                  sudo rm -r /home/ubuntu/.kube
-                  sudo mkdir /home/ubuntu/.kube
-                  sudo chmod -R 777 /home/ubuntu/.kube 
+                  rm -r /home/ubuntu/.kube
+                  mkdir /home/ubuntu/.kube
+                  chmod -R 777 /home/ubuntu/.kube 
                   tfaws output -state /workspace/terraform.tfstate -raw kube_config > /home/ubuntu/.kube/config
-                  sudo chmod -R 400 ~/.kube/config
-                  sudo chmod -R go-r ~/.kube/config
+                  chmod -R 400 ~/.kube/config
+                  chmod -R go-r ~/.kube/config
                 '''
             }
         }
