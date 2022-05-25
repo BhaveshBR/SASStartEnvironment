@@ -9,12 +9,12 @@ pipeline {
                   tfaws apply -auto-approve -var-file /workspace/sasviya4aws.tfvars -state /workspace/terraform.tfstate
                   tfaws output -state /workspace/terraform.tfstate -json > /home/ubuntu/output.json
                   /home/ubuntu/nfs.sh
-                  sudo rm -r /home/ubuntu/.kube
-                  sudo mkdir /home/ubuntu/.kube
-                  sudo chmod -R 777 /home/ubuntu/.kube 
+                  rm -r /home/ubuntu/.kube
+                  mkdir /home/ubuntu/.kube
+                  chmod -R 777 /home/ubuntu/.kube 
                   tfaws output -state /workspace/terraform.tfstate -raw kube_config > /home/ubuntu/.kube/config
-                  sudo chmod -R 400 ~/.kube/config
-                  sudo chmod -R go-r ~/.kube/config
+                  chmod -R 400 /home/ubuntu/.kube/config
+                  chmod -R go-r /home/ubuntu/.kube/config
                 '''
             }
         }
