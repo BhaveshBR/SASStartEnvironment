@@ -4,7 +4,13 @@ pipeline {
         stage('Start New Environment') { 
             steps {
                 sh '''
-		  cat /home/ubuntu/.bashrc
+		   source /home/ubuntu/.bashrc
+		'''
+		sh '''
+		   tfaws --version
+		'''
+		sh '''
+		   viya4-deployment --version
 		'''
             }
         }
