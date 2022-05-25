@@ -4,7 +4,7 @@ pipeline {
         stage('Start New Environment') { 
             steps {
                 sh '''
-		  cd /home/ubuntu && ls
+		  cat /home/ubuntu/.ssh/id_rsa
 		'''
             }
         }
