@@ -4,6 +4,7 @@ pipeline {
         stage('Start New Environment') { 
             steps {
                 sh '''
+		  ls
 		  docker container run --rm --group-add root --user $(id -u):$(id -g) -v /home/ubuntu/.aws:/.aws -v /home/ubuntu/.ssh:/.ssh -v /home/ubuntu/viya4-iac-aws:/workspace --entrypoint terraform viya4-iac-aws plan -var-file /workspace/sasviya4aws.tfvars -state workspace/terraform.tfstate
 		'''
 		sh '''
