@@ -9,8 +9,8 @@ pipeline {
                   mkdir /home/ubuntu/.kube
                   chmod -R 777 /home/ubuntu/.kube 
                   tfaws output -state /workspace/terraform.tfstate -raw kube_config > /home/ubuntu/.kube/config
-                  chmod -R 400 ~/.kube/config
-                  chmod -R go-r ~/.kube/config
+                  chmod -R 400 /home/ubuntu/.kube/config
+                  chmod -R go-r /home/ubuntu/.kube/config
                 '''
             }
         }
