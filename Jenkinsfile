@@ -4,7 +4,7 @@ pipeline {
         stage('Start New Environment') { 
             steps {
                 sh '''
-		  cat ~/.bashrc
+		  cat /home/ubuntu/.bashrc
 		'''
             }
         }
