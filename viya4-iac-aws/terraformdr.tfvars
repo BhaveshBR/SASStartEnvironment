@@ -30,6 +30,16 @@ tags = { "resourceowner" = "sinbrvk" , "project_name" = "sasviya4aws" , "gel_pro
 #  default = {},
 #}
 
+# Bring your own existing resources
+vpc_id  = "vpc-0da72db6c440725b8" # only needed if using pre-existing VPC
+subnet_ids = {  # only needed if using pre-existing subnets
+  "public" : ["subnet-0b04ddbb5faff11f7", "subnet-087afce4bd2fb161b"],
+  "private" : ["subnet-02018ae17c7b822aa", "subnet-0c1b8ea6397ff2791"],
+  "database" : ["subnet-054cc9d2f4cb47a74", "subnet-08c784a46f76c6f23"]
+}
+nat_id = "nat-0a08d0824ec63bbaf"
+security_group_id = "sg-0603b16a1a1c2483f" # only needed if using pre-existing Security Group
+
 ## Cluster config
 kubernetes_version                      = "1.21"
 default_nodepool_node_count             = 1
