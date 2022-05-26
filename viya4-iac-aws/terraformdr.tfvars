@@ -48,7 +48,7 @@ default_nodepool_custom_data            = ""
 
 ## General
 efs_performance_mode                    = "generalPurpose"
-storage_type                            = ""
+storage_type                            = "none"
 
 ## Cluster Node Pools config
 node_pools = {
