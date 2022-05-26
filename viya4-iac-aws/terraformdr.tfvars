@@ -126,8 +126,8 @@ node_pools = {
 # Jump Server
 existingJumpServer                   = true
 existingNFS                          = true
-jumpserver_instanceid                = ""
-nfs_instanceid                       = ""
+jumpserver_instanceid                = "i-06f441ea221a36e50"
+nfs_instanceid                       = "i-0d8263e072d1c807c"
 jump_vm_admin                         = "jumpuser"
 
 # NFS Server
