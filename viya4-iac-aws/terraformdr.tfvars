@@ -30,16 +30,6 @@ tags = { "resourceowner" = "sinbrvk" , "project_name" = "sasviya4aws" , "gel_pro
 #  default = {},
 #}
 
-# Bring your own existing resources
-vpc_id  = "vpc-0da72db6c440725b8" # only needed if using pre-existing VPC
-subnet_ids = {  # only needed if using pre-existing subnets
-  "public" : ["subnet-0b04ddbb5faff11f7", "subnet-087afce4bd2fb161b"],
-  "private" : ["subnet-02018ae17c7b822aa", "subnet-0c1b8ea6397ff2791"],
-  "database" : ["subnet-054cc9d2f4cb47a74", "subnet-08c784a46f76c6f23"]
-}
-nat_id = "nat-0a08d0824ec63bbaf"
-security_group_id = "sg-0603b16a1a1c2483f" # only needed if using pre-existing Security Group
-
 ## Cluster config
 kubernetes_version                      = "1.21"
 default_nodepool_node_count             = 1
@@ -48,7 +38,7 @@ default_nodepool_custom_data            = ""
 
 ## General
 efs_performance_mode                    = "generalPurpose"
-storage_type                            = "none"
+storage_type                            = "standard"
 
 ## Cluster Node Pools config
 node_pools = {
@@ -124,13 +114,13 @@ node_pools = {
 }
 
 # Jump Server
-existingJumpServer                   = true
-existingNFS                          = true
-jumpserver_instanceid                = "i-06f441ea221a36e50"
-nfs_instanceid                       = "i-0d8263e072d1c807c"
+create_jump_vm                        = true
 jump_vm_admin                         = "jumpuser"
+jump_vm_type                          = "t3.medium"
 
 # NFS Server
 # required ONLY when storage_type is "standard" to create NFS Server VM
+create_nfs_public_ip                  = false
 nfs_vm_admin                          = "nfsuser"
+nfs_vm_type                           = "m5.xlarge"
 azs = [ "us-east-2a", "us-east-2b" ]
