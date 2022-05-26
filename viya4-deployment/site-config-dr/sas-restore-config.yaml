@@ -1,0 +1,9 @@
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-restore-job-parameters
+behavior: merge
+literals:
+  - SAS_BACKUP_ID=2022-05-20T15_46_41_641_0700 
+  - SAS_DEPLOYMENT_START_MODE=RESTORE
