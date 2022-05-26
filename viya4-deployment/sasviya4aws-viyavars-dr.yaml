@@ -1,13 +1,13 @@
 ## Cluster
 PROVIDER: aws
-CLUSTER_NAME: sasviya4aws
+CLUSTER_NAME: sasviya4awsdr
 NAMESPACE: sasviya4aws
 
 ## MISC
 DEPLOY: true # Set to false to stop at generating the manifest
 
 #LOADBALANCER_SOURCE_RANGES: ['<cluster_nat_ip>/32']
-LOADBALANCER_SOURCE_RANGES: ["149.173.0.0/16", "71.135.0.0/16"]
+LOADBALANCER_SOURCE_RANGES: ["149.173.0.0/16", "71.135.0.0/16", "20.242.50.43/32"]
 # Spexify the usual CIDR ranges assigned to SAS
 
 ## Storage - we let the tool create the SC for us
