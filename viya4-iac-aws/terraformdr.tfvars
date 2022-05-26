@@ -21,7 +21,7 @@ default_public_access_cidrs         = ["149.173.0.0/16", "71.135.0.0/16", "20.24
 # **************  RECOMENDED  VARIABLES  ***************
 
 # Optional: tags for all tagable items in your cluster.
-tags = { "resourceowner" = "sinbrvk" , "project_name" = "sasviya4aws" , "gel_project" = "PSGEL297" }
+tags = { "resourceowner" = "sinbrvkdr" , "project_name" = "sasviya4aws" , "gel_project" = "PSGEL297" }
 
 # Postgres config - By having this entry a database server is created. If you do not
 #                   need an external database server remove the 'postgres_servers'
