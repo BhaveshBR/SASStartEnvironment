@@ -6,7 +6,7 @@ pipeline {
                 sh '''
                   cp viya4-iac-aws/terraform.tfvars /home/ubuntu/viya4-iac-aws/terraform.tfvars
                   cp nfs.sh /home/ubuntu/nfs.sh
-                  rm -r ~/home/viya4-iac-aws/*.tfstate
+                  rm -r -f /home/ubuntu/viya4-iac-aws/*.tfstate
                   chmod +x nfs.sh
                   alias tfaws="docker container run --rm --group-add root --user $(id -u):$(id -g) -v /home/ubuntu/.aws:/.aws -v /home/ubuntu/.ssh:/.ssh -v /home/ubuntu/viya4-iac-aws:/workspace --entrypoint terraform viya4-iac-aws"
                   tfaws plan -var-file /workspace/terraform.tfvars -state workspace/terraform.tfstate
