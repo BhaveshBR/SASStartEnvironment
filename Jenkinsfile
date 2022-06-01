@@ -5,7 +5,7 @@ pipeline {
             steps {
                 script {
                     CLUSER_STATUS = sh (
-                        script: 'echo $HOME',
+                        script: 'cd /home/ubuntu/.aws | aws eks describe-cluster --name sinbrvk-eks | jq \'.cluster.status\'',
                         returnStdout: true
                     ).trim()
                     echo "Cluster Status : ${CLUSER_STATUS}"
