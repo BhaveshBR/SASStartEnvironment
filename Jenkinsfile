@@ -15,7 +15,6 @@ pipeline {
             }
         }
         stage('Get Environment Details') {
-        {
             steps {
                 sh '''
                 cp nfs.sh /home/ubuntu/nfs.sh
