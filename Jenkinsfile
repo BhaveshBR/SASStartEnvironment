@@ -27,13 +27,15 @@ pipeline {
         stage('Create Environment')
         {
             steps {
-                script {
-                    if (CLUSTER_STATUS == 'INACTIVE')
-                    {
-                        sh '''
-                            echo "hello"
-                            echo "wb"
-                        '''
+                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                    script {
+                        if (CLUSTER_STATUS == 'INACTIVE')
+                        {
+                            sh '''
+                                echo "hello"
+                                echo "wb"
+                            '''
+                        }
                     }
                 }
             }
