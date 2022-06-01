@@ -8,9 +8,6 @@ pipeline {
                         script: 'cd /home/ubuntu/.aws | aws eks describe-cluster --name sinbrvk-eks --location us-east-2 | jq \'.cluster.status\'',
                         returnStdout: true
                     ).trim()
-                    echo "Cluster Status : ${CLUSER_STATUS}"
-                }
-                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                     if (CLUSER_STATUS == 'ACTIVE')
                     {
                         echo "Cluster is ACTIVE"
@@ -18,14 +15,16 @@ pipeline {
                     else
                     {
                         echo "Cluster is Not ACTIVE"
-                        sh '''
-                         cp viya4-iac-aws/terraform.tfvars /home/ubuntu/viya4-iac-aws/terraform.tfvars
-                         rm -r -f /home/ubuntu/viya4-iac-aws/*.tfstate
-                         alias tfaws="docker container run --rm --group-add root --user $(id -u):$(id -g) -v /home/ubuntu/.aws:/.aws -v /home/ubuntu/.ssh:/.ssh -v /home/ubuntu/viya4-iac-aws:/workspace --entrypoint terraform viya4-iac-aws"
-                         tfaws plan -var-file /workspace/terraform.tfvars -state workspace/terraform.tfstate
-                         tfaws apply -auto-approve -var-file /workspace/terraform.tfvars -state /workspace/terraform.tfstate
-                        '''
                     }
+                }
+                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                    sh '''
+                        cp viya4-iac-aws/terraform.tfvars /home/ubuntu/viya4-iac-aws/terraform.tfvars
+                        rm -r -f /home/ubuntu/viya4-iac-aws/*.tfstate
+                        alias tfaws="docker container run --rm --group-add root --user $(id -u):$(id -g) -v /home/ubuntu/.aws:/.aws -v /home/ubuntu/.ssh:/.ssh -v /home/ubuntu/viya4-iac-aws:/workspace --entrypoint terraform viya4-iac-aws"
+                        tfaws plan -var-file /workspace/terraform.tfvars -state workspace/terraform.tfstate
+                        tfaws apply -auto-approve -var-file /workspace/terraform.tfvars -state /workspace/terraform.tfstate
+                    '''
                 }
             }
         }
