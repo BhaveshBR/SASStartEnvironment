@@ -1,31 +1,44 @@
 pipeline {
     agent any 
+    environment { 
+        CLUSTER_STATUS = 'INACTIVE'
+    }
     stages {
-        stage('Create New Environment') { 
+        stage('Check Environment') { 
             steps {
                 script {
-                    CLUSER_STATUS = sh (
+                    CLUSTER_STATUS = sh (
                         script: 'cd /home/ubuntu/.aws | aws eks describe-cluster --name sinbrvk-eks | jq \'.cluster.status\'',
                         returnStdout: true
                     ).trim()
-                    echo "Cluster - ${CLUSER_STATUS}"
-                    if (CLUSER_STATUS == '"ACTIVE"')
+                    echo "Cluster - ${CLUSTER_STATUS}"
+                    if (CLUSTER_STATUS == '"ACTIVE"')
                     {
                         echo "Cluster is ACTIVE"
                     }
                     else
                     {
                         echo "Cluster is Not ACTIVE"
+                        CLUSTER_STATUS = "INACTIVE"
                     }
                 }
+            }
+        }
+        stage('Create Environment')
+        {
+            when {
+                environment(name: "CLUSTER_STATUS", value: "INACTIVE")
+            }
+            steps {
+                echo "Cluster - ${CLUSTER_STATUS}"
                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                    sh '''
-                        #cp viya4-iac-aws/terraform.tfvars /home/ubuntu/viya4-iac-aws/terraform.tfvars
-                        #rm -r -f /home/ubuntu/viya4-iac-aws/*.tfstate
-                        #alias tfaws="docker container run --rm --group-add root --user $(id -u):$(id -g) -v /home/ubuntu/.aws:/.aws -v /home/ubuntu/.ssh:/.ssh -v /home/ubuntu/viya4-iac-aws:/workspace --entrypoint terraform viya4-iac-aws"
-                        #tfaws plan -var-file /workspace/terraform.tfvars -state workspace/terraform.tfstate
-                        #tfaws apply -auto-approve -var-file /workspace/terraform.tfvars -state /workspace/terraform.tfstate
-                    '''
+                sh '''
+                    cp viya4-iac-aws/terraform.tfvars /home/ubuntu/viya4-iac-aws/terraform.tfvars
+                    rm -r -f /home/ubuntu/viya4-iac-aws/*.tfstate
+                    alias tfaws="docker container run --rm --group-add root --user $(id -u):$(id -g) -v /home/ubuntu/.aws:/.aws -v /home/ubuntu/.ssh:/.ssh -v /home/ubuntu/viya4-iac-aws:/workspace --entrypoint terraform viya4-iac-aws"
+                    tfaws plan -var-file /workspace/terraform.tfvars -state workspace/terraform.tfstate
+                    tfaws apply -auto-approve -var-file /workspace/terraform.tfvars -state /workspace/terraform.tfstate
+                '''
                 }
             }
         }
