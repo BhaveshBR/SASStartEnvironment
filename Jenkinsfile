@@ -11,7 +11,7 @@ pipeline {
                     echo "Cluster Status : ${CLUSER_STATUS}"
                 }
                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                    if (CLUSER_STATUS == 'ACTIVE') {
+                    if (CLUSER_STATUS == 'ACTIVE')
                     {
                         echo "Cluster is ACTIVE"
                     }
