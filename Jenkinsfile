@@ -26,6 +26,9 @@ pipeline {
         }
         stage('Create Environment')
         {
+            when (CLUSTER_STATUS == 'INACTIVE') {
+                echo 'Excecuted only on Inactive.'
+            }
             steps {
                 if (CLUSTER_STATUS == "INACTIVE") 
                 {
