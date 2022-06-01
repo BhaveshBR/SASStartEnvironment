@@ -30,6 +30,15 @@ tags = { "resourceowner" = "sinbrvkdr" , "project_name" = "sasviya4aws" , "gel_p
 #  default = {},
 #}
 
+vpc_id  = "vpc-0afbc8a0beb95fc3c" # only needed if using pre-existing VPC
+subnet_ids = {  # only needed if using pre-existing subnets
+  "public" : ["subnet-00eced701be71f7ef", "subnet-026173f9552217fac"],
+  "private" : ["subnet-040f33286a1d50700", "subnet-0fdd18df481fb1fd0"],
+  "database" : ["subnet-077d204e17652d268", "subnet-09b36d12f8be82bfc"]
+}
+nat_id = "nat-04373f172351e58b1"
+security_group_id = "sg-0343a4cb59f5ec7a2" # only needed if using pre-existing Security Group
+
 ## Cluster config
 kubernetes_version                      = "1.21"
 default_nodepool_node_count             = 1
@@ -38,7 +47,7 @@ default_nodepool_custom_data            = ""
 
 ## General
 efs_performance_mode                    = "generalPurpose"
-storage_type                            = "standard"
+storage_type                            = "none"
 
 ## Cluster Node Pools config
 node_pools = {
@@ -114,13 +123,15 @@ node_pools = {
 }
 
 # Jump Server
-create_jump_vm                        = true
+create_jump_vm                        = false
 jump_vm_admin                         = "jumpuser"
 jump_vm_type                          = "t3.medium"
+existingJumpServer                   = true
+existingNFS                          = true
+jumpserver_instanceid                = "i-0bd69f422eddae343"
+nfs_instanceid                       = "i-0cee215459501b383"
 
 # NFS Server
 # required ONLY when storage_type is "standard" to create NFS Server VM
-create_nfs_public_ip                  = false
 nfs_vm_admin                          = "nfsuser"
-nfs_vm_type                           = "m5.xlarge"
 azs = [ "us-east-2a", "us-east-2b" ]
