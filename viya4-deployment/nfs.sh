@@ -6,6 +6,8 @@ SCRIPT="[[ -d /viya-share ]] && echo -e \"\nGood to go!\" || echo -e \"\nWhoa! S
 SCRIPTNS="mkdir /viya-share/NS && cd /viya-share/NS && mkdir bin data homes astores && ls -l /viya-share /viya-share/NS"
 HOSTS=$ipaddress
 SCR=${SCRIPTNS/NS/$Namespace}
+SCR=${SCR/NS/$Namespace}
+SCR=${SCR/NS/$Namespace}
 echo $SCR
 USERNAMES="jumpuser"
 sshpass ssh -l $USERNAMES $HOSTS "${SCRIPT}"
