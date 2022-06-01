@@ -30,10 +30,7 @@ pipeline {
                 echo 'Excecuted only on Inactive.'
             }
             steps {
-                if (CLUSTER_STATUS == "INACTIVE") 
-                {
-                    echo "Cluster - ${CLUSTER_STATUS}"
-                }
+                echo "Cluster - ${CLUSTER_STATUS}"
             }
         }
     }
