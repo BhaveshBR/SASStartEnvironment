@@ -3,11 +3,13 @@ pipeline {
     stages {
         stage('Create New Environment') { 
             steps {
-                CLUSER_STATUS = sh (
-                    script: 'aws eks describe-cluster --name sinbrvk-eks | jq \'.cluster.status\'',
-                    returnStdout: true
-                ).trim()
-                echo "Cluster Status : ${CLUSER_STATUS}"
+                script {
+                    CLUSER_STATUS = sh (
+                        script: 'aws eks describe-cluster --name sinbrvk-eks | jq \'.cluster.status\'',
+                        returnStdout: true
+                    ).trim()
+                    echo "Cluster Status : ${CLUSER_STATUS}"
+                }
                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                     sh '''
                     # cp viya4-iac-aws/terraform.tfvars /home/ubuntu/viya4-iac-aws/terraform.tfvars
