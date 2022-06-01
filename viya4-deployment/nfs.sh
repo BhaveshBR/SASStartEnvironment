@@ -10,6 +10,6 @@ SCR=${SCR/NS/$Namespace}
 SCR=${SCR/NS/$Namespace}
 echo $SCR
 USERNAMES="jumpuser"
-sshpass ssh -l $USERNAMES $HOSTS "${SCRIPT}"
-sshpass ssh -l $USERNAMES $HOSTS "${SCR}"
+sshpass ssh -o StrictHostKeyChecking=no -l $USERNAMES $HOSTS "${SCRIPT}"
+sshpass ssh -o StrictHostKeyChecking=no -l $USERNAMES $HOSTS "${SCR}"
 
