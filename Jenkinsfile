@@ -26,11 +26,11 @@ pipeline {
         }
         stage('Create Environment')
         {
-            when {
-                environment name: 'CLUSTER_STATUS', value: 'INACTIVE'
-            }
-            steps {
-                echo "Cluster - ${CLUSTER_STATUS}"
+            if (CLUSTER_STATUS == "INACTIVE") 
+            {
+                steps {
+                        echo "Cluster - ${CLUSTER_STATUS}"
+                    }
             }
         }
     }
