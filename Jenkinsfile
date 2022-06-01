@@ -13,10 +13,11 @@ pipeline {
                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                     if (CLUSER_STATUS == 'ACTIVE') {
                     {
-                        echo "Cluster Working"
+                        echo "Cluster is ACTIVE"
                     }
                     else
                     {
+                        echo "Cluster is Not ACTIVE"
                         sh '''
                          cp viya4-iac-aws/terraform.tfvars /home/ubuntu/viya4-iac-aws/terraform.tfvars
                          rm -r -f /home/ubuntu/viya4-iac-aws/*.tfstate
