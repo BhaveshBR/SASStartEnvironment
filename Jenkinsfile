@@ -28,10 +28,13 @@ pipeline {
         {
             steps {
                 script {
-                    sh '''
-                        echo "hello"
-                        echo "wb"
-                    '''
+                    if (CLUSTER_STATUS == 'INACTIVE')
+                    {
+                        sh '''
+                            echo "hello"
+                            echo "wb"
+                        '''
+                    }
                 }
             }
         }
