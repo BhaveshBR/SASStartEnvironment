@@ -5,10 +5,10 @@ pipeline {
             steps {
                 script {
                     CLUSER_STATUS = sh (
-                        script: 'cd /home/ubuntu/.aws | aws eks describe-cluster --name sinbrvk-eks --location us-east-2 | jq \'.cluster.status\'',
+                        script: 'cd /home/ubuntu/.aws | aws eks describe-cluster --name sinbrvk-eks | jq \'.cluster.status\'',
                         returnStdout: true
                     ).trim()
-                    echo 
+                    echo "Cluster - ${CLUSER_STATUS}"
                     if (CLUSER_STATUS == '"ACTIVE"')
                     {
                         echo "Cluster is ACTIVE"
