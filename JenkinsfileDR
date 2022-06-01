@@ -11,6 +11,16 @@ pipeline {
                         script: "cd /home/ubuntu/.aws | aws eks describe-cluster --name sinbrvkdr-eks | jq '.cluster.status'",
                         returnStdout: true
                     ).trim()
+                    echo "Cluster - ${CLUSTER_STATUS}"
+                    if (CLUSTER_STATUS == '"ACTIVE"')
+                    {
+                        echo "Cluster is ACTIVE"
+                    }
+                    else
+                    {
+                        echo "Cluster is Not ACTIVE"
+                        CLUSTER_STATUS = "INACTIVE"
+                    }
                 }
             }
         }
