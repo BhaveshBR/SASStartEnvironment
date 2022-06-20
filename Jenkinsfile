@@ -4,13 +4,6 @@ pipeline {
         CLUSTER_STATUS = 'INACTIVE'
     }
     stages {
-       stage('Get Details') {
-          steps {
-                sh '''
-                eksctl utils write-kubeconfig -n sinbrvk-eks
-                '''
-            }
-        }
         stage('Check Environment') { 
             steps {
                 script {
@@ -18,6 +11,7 @@ pipeline {
                         script: 'cd /home/ubuntu/.aws | aws eks describe-cluster --name sinbrvk-eks | jq \'.cluster.status\'',
                         returnStdout: true
                     ).trim()
+                    CLUSTER_STATUS = '"ACTIVE"'
                     echo "Cluster - ${CLUSTER_STATUS}"
                     if (CLUSTER_STATUS == '"ACTIVE"')
                     {
