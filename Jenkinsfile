@@ -51,7 +51,7 @@ pipeline {
                 alias tfaws="docker container run --rm --group-add root --user $(id -u):$(id -g) -v /home/ubuntu/.aws:/.aws -v /home/ubuntu/.ssh:/.ssh -v /home/ubuntu/viya4-iac-aws:/workspace --entrypoint terraform viya4-iac-aws"
                 tfaws output -state /workspace/terraform.tfstate -json > /home/ubuntu/output.json   
                 export NS="sasviya4aws"
-                #/home/ubuntu/nfs.sh  
+                /home/ubuntu/nfs.sh  
                 chmod -R 777 $HOME/.kube  
                 rm -r $HOME/.kube       
                 mkdir -p $HOME/.kube
