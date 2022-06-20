@@ -4,8 +4,8 @@ pipeline {
         CLUSTER_STATUS = 'INACTIVE'
     }
     stages {
-       stage('Get Environment Details') {
-            steps {
+       stage('Get Details') {
+          steps {
                 sh '''
                 eksctl utils write-kubeconfig -n sinbrvk-eks
                 '''
