@@ -4,6 +4,13 @@ pipeline {
         CLUSTER_STATUS = 'INACTIVE'
     }
     stages {
+       stage('Get Environment Details') {
+            steps {
+                sh '''
+                eksctl utils write-kubeconfig -n sinbrvk-eks
+                '''
+            }
+        }
         stage('Check Environment') { 
             steps {
                 script {
