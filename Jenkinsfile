@@ -12,6 +12,7 @@ pipeline {
                         returnStdout: true
                     ).trim()
                     echo "Cluster - ${CLUSTER_STATUS}"
+                    CLUSTER_STATUS = "INACTIVE"
                     if (CLUSTER_STATUS == '"ACTIVE"')
                     {
                         echo "Cluster is ACTIVE"
