@@ -12,7 +12,7 @@ pipeline {
                         returnStdout: true
                     ).trim()
                     echo "Cluster - ${CLUSTER_STATUS}"
-                    CLUSTER_STATUS = '"ACTIVE"'
+                    //CLUSTER_STATUS = '"ACTIVE"'
                     if (CLUSTER_STATUS == '"ACTIVE"')
                     {
                         echo "Cluster is ACTIVE"
@@ -33,11 +33,11 @@ pipeline {
                         if (CLUSTER_STATUS == 'INACTIVE')
                         {
                             sh '''
-                                #cp viya4-iac-aws/terraform.tfvars /home/ubuntu/viya4-iac-aws/terraform.tfvars
-                                #rm -r -f /home/ubuntu/viya4-iac-aws/*.tfstate
-                                #alias tfaws="docker container run --rm --group-add root --user $(id -u):$(id -g) -v /home/ubuntu/.aws:/.aws -v /home/ubuntu/.ssh:/.ssh -v /home/ubuntu/viya4-iac-aws:/workspace --entrypoint terraform viya4-iac-aws"
-                                #tfaws plan -var-file /workspace/terraform.tfvars -state workspace/terraform.tfstate
-                                #tfaws apply -auto-approve -var-file /workspace/terraform.tfvars -state /workspace/terraform.tfstate
+                                cp viya4-iac-aws/terraform.tfvars /home/ubuntu/viya4-iac-aws/terraform.tfvars
+                                rm -r -f /home/ubuntu/viya4-iac-aws/*.tfstate
+                                alias tfaws="docker container run --rm --group-add root --user $(id -u):$(id -g) -v /home/ubuntu/.aws:/.aws -v /home/ubuntu/.ssh:/.ssh -v /home/ubuntu/viya4-iac-aws:/workspace --entrypoint terraform viya4-iac-aws"
+                                tfaws plan -var-file /workspace/terraform.tfvars -state workspace/terraform.tfstate
+                                tfaws apply -auto-approve -var-file /workspace/terraform.tfvars -state /workspace/terraform.tfstate
                             '''
                         }
                     }
