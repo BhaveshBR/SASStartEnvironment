@@ -69,7 +69,7 @@ pipeline {
                   cp -r viya4-deployment/site-config/. /home/ubuntu/project/deploy/sasviya4aws/site-config/.
                   cp viya4-deployment/sasviya4aws-viyavars.yaml /home/ubuntu/project/deploy/sasviya4aws/sasviya4aws-viyavars.yaml
                   alias viya4-deployment="docker container run --rm --group-add root --user $(id -u):$(id -g) -v /home/ubuntu/project/deploy:/data -v $HOME/.kube/config:/config/kubeconfig -v /home/ubuntu/project/deploy/sasviya4aws/sasviya4aws-viyavars.yaml:/config/config -v /home/ubuntu/viya4-iac-aws/terraform.tfstate:/config/tfstate viya4-deployment"
-                  viya4-deployment --tags "baseline,viya,install"
+                  viya4-deployment --tags "baseline,viya,cluster-logging,cluster-monitoring,viya-monitoring,install"
                 '''
             }
         }
