@@ -47,7 +47,10 @@ pipeline {
         stage('NFS Configure') {
             steps {
                 sshagent (credentials: ['jumpuser']) {
-                  sh "ssh -o StrictHostKeyChecking=no -T jumpuser@$(tfaws output -state /workspace/terraform.tfstate -raw jump_public_ip)"
+                  sh '''
+                  ip=$(tfaws output -state /workspace/terraform.tfstate -raw jump_public_ip)
+                  ssh -o StrictHostKeyChecking=no -T jumpuser@$ip
+                  '''
                 }
             }
         }
