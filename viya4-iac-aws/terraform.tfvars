@@ -6,7 +6,7 @@
 # These required variables' values MUST be provided by the User
 prefix                                  = "sinbrvk"
 location                                = "us-east-2" # e.g., "us-east-1"
-ssh_public_key                          = "~/.ssh/id_rsa.pub"
+ssh_public_key                          = "~/.ssh/id_rsa_terraform.pub"
 create_static_kubeconfig                = true
 # ****************  REQUIRED VARIABLES  ****************
 
