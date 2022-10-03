@@ -6,7 +6,7 @@
 # These required variables' values MUST be provided by the User
 prefix                                  = "sinbrvk"
 location                                = "us-east-2" # e.g., "us-east-1"
-ssh_public_key                          = "~/.ssh/id_rsa_terraform.pub"
+ssh_public_key                          = "~/.ssh/id_rsa.pub"
 create_static_kubeconfig                = true
 # ****************  REQUIRED VARIABLES  ****************
 
@@ -17,7 +17,7 @@ create_static_kubeconfig                = true
 # Include CIDR ranges for the sas.com domains
 #default_public_access_cidrs             = ["71.135.0.0/16"]  # e.g., ["123.45.6.89/32"]
 # we allow access from the RACE VMWARE and RACE Azure clients network
-default_public_access_cidrs         = ["149.173.0.0/16", "71.135.0.0/16", "20.235.31.241/32"]
+default_public_access_cidrs         = ["149.173.0.0/16", "71.135.0.0/16", "52.226.102.80/32", "52.226.102.81/32","20.235.31.241/32"]
 # **************  RECOMENDED  VARIABLES  ***************
 
 # Optional: tags for all tagable items in your cluster.
@@ -31,8 +31,8 @@ tags = { "resourceowner" = "sinbrvk" , "project_name" = "sasviya4aws" , "gel_pro
 #}
 
 ## Cluster config
-kubernetes_version                      = "1.21"
-default_nodepool_node_count             = 1
+kubernetes_version                      = "1.22"
+default_nodepool_node_count             = 2
 default_nodepool_vm_type                = "m5.2xlarge"
 default_nodepool_custom_data            = ""
 
@@ -44,12 +44,12 @@ storage_type                            = "standard"
 node_pools = {
   cas = {
     "vm_type" = "m5.2xlarge"
-    "cpu_type" = "AL2_x86_64"
+    "cpu_type"     = "AL2_x86_64"
     "os_disk_type" = "gp2"
     "os_disk_size" = 200
     "os_disk_iops" = 0
-    "min_nodes" = 2
-    "max_nodes" = 2
+    "min_nodes" = 4
+    "max_nodes" = 5
     "node_taints" = ["workload.sas.com/class=cas:NoSchedule"]
     "node_labels" = {
       "workload.sas.com/class" = "cas"
@@ -60,13 +60,13 @@ node_pools = {
     "metadata_http_put_response_hop_limit" = 1
   },
   compute = {
-    "vm_type" = "m5.xlarge"
-    "cpu_type" = "AL2_x86_64"
+    "vm_type" = "m5.8xlarge"
+    "cpu_type"     = "AL2_x86_64"
     "os_disk_type" = "gp2"
     "os_disk_size" = 200
     "os_disk_iops" = 0
     "min_nodes" = 1
-    "max_nodes" = 1
+    "max_nodes" = 5
     "node_taints" = ["workload.sas.com/class=compute:NoSchedule"]
     "node_labels" = {
       "workload.sas.com/class"        = "compute"
@@ -77,14 +77,32 @@ node_pools = {
     "metadata_http_tokens"                 = "required"
     "metadata_http_put_response_hop_limit" = 1
   },
-  stateless = {
-    "vm_type" = "m5.2xlarge"
-    "cpu_type" = "AL2_x86_64"
+  connect = {
+    "vm_type" = "m5.8xlarge"
+    "cpu_type"     = "AL2_x86_64"
     "os_disk_type" = "gp2"
     "os_disk_size" = 200
     "os_disk_iops" = 0
-    "min_nodes" = 2
-    "max_nodes" = 2
+    "min_nodes" = 1
+    "max_nodes" = 5
+    "node_taints" = ["workload.sas.com/class=connect:NoSchedule"]
+    "node_labels" = {
+      "workload.sas.com/class"        = "connect"
+      "launcher.sas.com/prepullImage" = "sas-programming-environment"
+    }
+    "custom_data" = ""
+    "metadata_http_endpoint"               = "enabled"
+    "metadata_http_tokens"                 = "required"
+    "metadata_http_put_response_hop_limit" = 1
+  },
+  stateless = {
+    "vm_type" = "m5.4xlarge"
+    "cpu_type"     = "AL2_x86_64"
+    "os_disk_type" = "gp2"
+    "os_disk_size" = 200
+    "os_disk_iops" = 0
+    "min_nodes" = 1
+    "max_nodes" = 5
     "node_taints" = ["workload.sas.com/class=stateless:NoSchedule"]
     "node_labels" = {
       "workload.sas.com/class" = "stateless"
@@ -95,16 +113,16 @@ node_pools = {
     "metadata_http_put_response_hop_limit" = 1
   },
   stateful = {
-    "vm_type" = "m5.2xlarge"
-    "cpu_type" = "AL2_x86_64"
+    "vm_type" = "m5.4xlarge"
+    "cpu_type"     = "AL2_x86_64"
     "os_disk_type" = "gp2"
     "os_disk_size" = 200
     "os_disk_iops" = 0
     "min_nodes" = 1
-    "max_nodes" = 2
+    "max_nodes" = 3
     "node_taints" = ["workload.sas.com/class=stateful:NoSchedule"]
     "node_labels" = {
-      "workload.sas.com/class" = "stateful"
+      "workload.sas.cs" = "stateful"
     }
     "custom_data" = ""
     "metadata_http_endpoint"               = "enabled"
@@ -123,4 +141,3 @@ jump_vm_type                          = "t3.medium"
 create_nfs_public_ip                  = false
 nfs_vm_admin                          = "nfsuser"
 nfs_vm_type                           = "m5.xlarge"
-azs = [ "us-east-2a", "us-east-2b" ]
