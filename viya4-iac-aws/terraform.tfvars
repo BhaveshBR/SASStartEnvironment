@@ -6,7 +6,7 @@
 # These required variables' values MUST be provided by the User
 prefix                                  = "sinbrvk"
 location                                = "us-east-2" # e.g., "us-east-1"
-ssh_public_key                          = "~/.ssh/id_rsa.pub"
+ssh_public_key                          = "~/.ssh/id_rsa_terraform.pub"
 create_static_kubeconfig                = true
 # ****************  REQUIRED VARIABLES  ****************
 
@@ -17,7 +17,7 @@ create_static_kubeconfig                = true
 # Include CIDR ranges for the sas.com domains
 #default_public_access_cidrs             = ["71.135.0.0/16"]  # e.g., ["123.45.6.89/32"]
 # we allow access from the RACE VMWARE and RACE Azure clients network
-default_public_access_cidrs         = ["149.173.0.0/16", "71.135.0.0/16", "20.242.50.43/32"]
+default_public_access_cidrs         = ["149.173.0.0/16", "71.135.0.0/16", "20.235.31.241/32"]
 # **************  RECOMENDED  VARIABLES  ***************
 
 # Optional: tags for all tagable items in your cluster.
