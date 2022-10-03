@@ -46,8 +46,8 @@ pipeline {
         }
         stage('NFS Configure') {
             steps {
-                sshagent (credentials: ['myuser-myserver-ssh-access']) {
-                  sh "ssh -vvv -o StrictHostKeyChecking=no -T jumpuser@18.221.188.155"
+                sshagent (credentials: ['jumpuser']) {
+                  sh "ssh -o StrictHostKeyChecking=no jumpuser@18.221.188.155"
                 }
             }
         }
