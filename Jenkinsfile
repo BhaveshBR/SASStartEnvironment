@@ -44,7 +44,14 @@ pipeline {
                 }
             }
         }
-          stage('Get Environment Details') {
+        stage('NFS Configure') {
+            steps {
+                sshagent (credentials: ['myuser-myserver-ssh-access']) {
+                  sh "ssh -vvv -o StrictHostKeyChecking=no -T jumpuser@18.221.188.155"
+                }
+            }
+        }
+        stage('Get Environment Details') {
             steps {
                 sh '''
                 cp nfs.sh /home/ubuntu/nfs.sh
