@@ -2,6 +2,8 @@ pipeline {
     agent any 
     environment { 
         CLUSTER_STATUS = 'INACTIVE'
+		NAMESPACE = 'sasviya4aws'
+		SAS_BACKUP_ID = '2022-06-01T17_51_24_624_0700'
     }
     stages {
         stage('Check Environment') { 
@@ -43,6 +45,17 @@ pipeline {
                 }
             }
         }
+		stage('NFS Configure') {
+            steps {
+                sshagent (credentials: ['jumpuser']) {
+                  sh '''
+                  alias tfaws="docker container run --rm --group-add root --user $(id -u):$(id -g) -v /home/ubuntu/.aws:/.aws -v /home/ubuntu/.ssh:/.ssh -v /home/ubuntu/viya4-iac-aws:/workspace --entrypoint terraform viya4-iac-aws"
+                  ip=$(tfaws output -state /workspace/terraform.tfstate -raw jump_public_ip)
+                  ssh -o StrictHostKeyChecking=no -T jumpuser@$ip
+                  '''
+                }
+            }
+        }
         stage('Get Environment Details') {
             steps {
                 sh '''
@@ -69,6 +82,35 @@ pipeline {
                   cp viya4-deployment/sasviya4aws-viyavars-dr.yaml /home/ubuntu/project/deploy/sasviya4aws/sasviya4aws-viyavars.yaml
                   alias viya4-deployment="docker container run --rm --group-add root --user $(id -u):$(id -g) -v /home/ubuntu/project/deploy:/data -v $HOME/.kube/config:/config/kubeconfig -v /home/ubuntu/project/deploy/sasviya4aws/sasviya4aws-viyavars.yaml:/config/config -v /home/ubuntu/viya4-iac-aws/terraform.tfstate:/config/tfstate viya4-deployment"
                   viya4-deployment --tags "baseline,viya,install"
+                '''
+            }
+        }
+		stage('Restore CAS DATA and Postgres') { 
+            steps {
+                sh '''                
+				  cd /home/ubuntu/project/deploy/${NAMESPACE}/site-config/vdm/generators
+				  
+				  cp viya4-deployment/site-configdr/sas-restore-config.yaml .
+				  
+				  sed -i 's/<BACKUPID>/${SAS_BACKUP_ID}/' sas-restore-config.yaml
+				  
+				  cd /home/ubuntu/project/deploy/${NAMESPACE}
+				  
+				  yq eval -i '.generators += ["site-config/vdm/generators/sas-restore-config.yaml"]' kustomization.yaml
+				  kustomize build -o site-restore.yaml
+				  
+				  yq eval -i '.resources += ["sas-bases/overlays/restore"]' kustomization.yaml
+                  kustomize build -o site-restore-initial.yaml
+
+				  kubectl apply -f site-restore-initial.yaml
+
+				  watch kubectl get jobs -l "sas.com/backup-job-type=restore" -L "sas.com/sas-backup-id,sas.com/backup-job-type,sas.com/sas-restore-status" -n ${NAMESPACE}
+
+				  kubectl get    pvc -l 'sas.com/backup-role=provider,app.kubernetes.io/part-of=cas' -n ${NAMESPACE}
+				  kubectl delete pvc -l 'sas.com/backup-role=provider,app.kubernetes.io/part-of=cas' -n ${NAMESPACE}
+				  kubectl apply -f site-restore.yaml
+
+				  kubectl wait --for=condition=ready --timeout=600s pod -l "app.kubernetes.io/instance=default" -n ${NAMESPACE}
                 '''
             }
         }

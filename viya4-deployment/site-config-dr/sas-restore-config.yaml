@@ -5,5 +5,5 @@ metadata:
   name: sas-restore-job-parameters
 behavior: merge
 literals:
-  - SAS_BACKUP_ID=2022-06-01T17_51_24_624_0700 
+  - SAS_BACKUP_ID=<BACKUPID> 
   - SAS_DEPLOYMENT_START_MODE=RESTORE
